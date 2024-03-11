@@ -1,15 +1,7 @@
-import { models, model, Schema } from "mongoose";
+import pkg from "mongoose";
 import crypto from "crypto";
-export const Members = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "Users",
-  },
-  joinedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+import { Members } from "./conversation.js";
+const { Schema, model, models } = pkg;
 
 const groupSchema = new Schema({
   members: [Members],

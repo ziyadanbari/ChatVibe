@@ -3,10 +3,12 @@ import { parse } from "cookie";
 import { verify } from "hono/jwt";
 import { User } from "../../models/user.js";
 import { errorResponse } from "../../constants/index.js";
+import { Conversation } from "../../models/conversation.js";
+
 export default async function getUserProfile(c) {
   try {
     let user = c.user;
-    if (user) {
+    if (!user) {
       const cookies = parse(c.req.header("Cookie"));
       const token = cookies?.token;
       if (!token) throw errorResponse.Unauthorized;
@@ -15,12 +17,20 @@ export default async function getUserProfile(c) {
       user = await User.findById(userId);
       if (!user) throw errorResponse.Unauthorized;
     }
+    let friends = [];
+    for (let i = 0; i < user.friends.length; i++) {
+      const friend = user.friends[i];
+      const conversation = await Conversation.findById(friend?.conversationId);
+      const lastMessage = conversation.messages?.slice(-1)[0];
+      friends.push({ ...friend._doc, lastMessage });
+    }
+    user = { ...user._doc, friends };
     return c.json({
-      ...user._doc,
+      ...user,
       password: undefined,
-      _id: undefined,
       __v: undefined,
       blackListTokens: undefined,
+      status: undefined,
     });
   } catch (error) {
     return apiErrorHandler(c, error);

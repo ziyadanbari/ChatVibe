@@ -11,7 +11,13 @@ export async function checkAuthorization(c, next) {
     if (!token) throw errorResponse.Unauthorized;
     const { userId } = await verify(token, process.env.JWT_SECRET);
     if (!userId) throw errorResponse.Unauthorized;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate([
+      { path: "friendWaitList.user", select: "username profile_pic" },
+      {
+        path: "friends.user",
+        select: "username profile_pic status lastActiveTime",
+      },
+    ]);
     if (!user || user?.isTokenBlackList(token))
       throw errorResponse.Unauthorized;
     c.user = user;

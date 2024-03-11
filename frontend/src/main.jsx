@@ -8,12 +8,15 @@ import AuthProvider from "./providers/AuthProvider.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "./components/Loading.jsx";
+import SocketProvider from "./providers/SocketProvider.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <DataProvider>
       <AuthProvider>
-        <Loading />
-        <App />
+        <SocketProvider>
+          <Loading />
+          <App />
+        </SocketProvider>
         <ToastContainer />
       </AuthProvider>
     </DataProvider>

@@ -7,6 +7,8 @@ import { auth } from "./router/authentication.route.js";
 import { cors } from "hono/cors";
 import { privateRoute } from "./router/private.route.js";
 import { handleSocket } from "./router/socket.private.route.js";
+import { socketInstance } from "./models/socketInstance.js";
+import { isAborted } from "zod";
 
 dotenv.config();
 
@@ -21,7 +23,6 @@ app.use(
     credentials: true,
   })
 );
-
 apiRoutes.route("/auth", auth);
 apiRoutes.route("/private", privateRoute);
 
@@ -33,14 +34,18 @@ connectToDB(DB_URI)
         `Server listening on ${server.address}:${server.port || PORT}`
       );
     });
-    const io = new Server(server, {
+    global.io = new Server(server, {
       cors: {
         origin: process.env.CLIENT_URL,
       },
     });
     handleSocket(io);
+    process.on("exit", cleanSocketInstances);
   })
   .catch((error) => {
     console.error(error);
     process.exit(0);
   });
+async function cleanSocketInstances() {
+  await socketInstance.deleteMany({});
+}

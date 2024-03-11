@@ -3,7 +3,7 @@ import { fetchSession } from "@/lib/fetchSession.js";
 import { useEffect } from "react";
 
 export default function AuthProvider({ children }) {
-  const { session, setSession } = useSession();
+  const { setSession } = useSession();
   useEffect(() => {
     fetchSession()
       .then((response) => {

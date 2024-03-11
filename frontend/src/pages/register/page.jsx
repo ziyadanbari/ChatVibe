@@ -16,7 +16,7 @@ import { LockKeyhole, User, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { toasty } from "@/lib/toasty.js";
 import { Avatar, AvatarImage } from "@/components/ui/avatar.jsx";
-import { imageToBlob } from "@/lib/imageToBase64.js";
+import { imageToBlob } from "@/lib/imageToBlob.js";
 import { axiosInstance } from "@/config/axiosInstance.js";
 import { register } from "@/config/api.js";
 import useSession from "@/hooks/useSession.js";
@@ -59,7 +59,7 @@ export default function Register() {
   }
 
   return (
-    <div className="w-full h-full flex justify-center lg:px-20 md:px-10 px-4 pb-20 items-center gap-5">
+    <div className="w-full h-full flex justify-center lg:px-20 md:px-10 px-4 pb-20 pt-5 items-center gap-5">
       <div className="md:flex-1 flex flex-col gap-5 sm:w-2/3 w-full">
         <div className="sm:text-4xl text-3xl font-semibold">
           Register to ChatVibes
@@ -78,6 +78,7 @@ export default function Register() {
                       <FormLabel>Username:</FormLabel>
                       <FormControl>
                         <Input
+                          placeholder={"Username"}
                           {...field}
                           domBefore={
                             <div className="absolute top-2/4 -translate-y-2/4 left-2">
@@ -101,6 +102,7 @@ export default function Register() {
                       <FormLabel>Password:</FormLabel>
                       <FormControl>
                         <Input
+                          placeholder={"Password"}
                           {...field}
                           type={"password"}
                           domBefore={
@@ -140,7 +142,7 @@ export default function Register() {
                 </div>
                 <div className="relative">
                   <div>
-                    <Avatar>
+                    <Avatar className="h-14 w-14">
                       <AvatarImage src={imageToBlob(form.watch("avatar"))} />
                     </Avatar>
                   </div>

@@ -1,7 +1,22 @@
-import { Schema, model, models } from "mongoose";
-import { Members } from "./group";
+import pkg from "mongoose";
+import crypto from "crypto";
+const { Schema, model, models } = pkg;
 
+export const Members = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+  },
+  joinedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 const messageSchema = new Schema({
+  messageId: {
+    type: String,
+    default: crypto.randomBytes(10).toString("hex"),
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "Users",
@@ -15,9 +30,17 @@ const messageSchema = new Schema({
       type: String,
     },
   },
-  createdAt: {
+  sendAt: {
     type: Date,
     default: Date.now,
+  },
+  viewed: {
+    type: Boolean,
+    default: false,
+  },
+  emitted: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -27,6 +50,10 @@ const conversationSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  aborted: {
+    type: Boolean,
+    default: false,
   },
 });
 

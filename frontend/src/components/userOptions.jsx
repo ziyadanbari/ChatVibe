@@ -4,8 +4,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { userOptions } from "@/constants/index.jsx";
@@ -21,7 +19,6 @@ export function UserOption({ icon, label }) {
 }
 
 export default function UserOptions() {
-  const { session } = useSession();
   return (
     <div>
       <DropdownMenu>
