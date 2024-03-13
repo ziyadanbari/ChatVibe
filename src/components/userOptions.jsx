@@ -1,4 +1,3 @@
-import useSession from "@/hooks/useSession.js";
 import { MoreVerticalIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -9,9 +8,9 @@ import {
 import { userOptions } from "@/constants/index.jsx";
 import { Link } from "react-router-dom";
 
-export function UserOption({ icon, label }) {
+export function UserOption({ icon, label, className }) {
   return (
-    <div className="flex items-center gap-2 font-semibold">
+    <div className={`flex items-center gap-2 font-semibold ${className}`}>
       <div>{icon}</div>
       <div>{label}</div>
     </div>

@@ -1,4 +1,4 @@
-export const baseURL = "http://localhost:8000";
+export const baseURL = "https://chat-vibe-tau.vercel.app/";
 export const baseURLApi = `${baseURL}/api`;
 export const register = "/auth/register";
 export const login = "/auth/login";

@@ -3,6 +3,7 @@ import MessagesBody from "@/components/conversation/MessagesBody.jsx";
 import UserProfileHeader from "@/components/conversation/UserProfileHeader.jsx";
 import { getConversation } from "@/config/api.js";
 import { axiosInstance } from "@/config/axiosInstance.js";
+import { useLoading } from "@/hooks/useLoading.js";
 import useSession from "@/hooks/useSession.js";
 import useSocket from "@/hooks/useSocket.js";
 import { createContext, useEffect, useLayoutEffect, useState } from "react";
@@ -15,20 +16,24 @@ export default function Conversation() {
   const { session } = useSession();
   const [conversation, setConversation] = useState(null);
   const [user, setUser] = useState(null);
+  const { setLoading } = useLoading();
   const navigate = useNavigate();
   useLayoutEffect(() => {
     async function fetchConversation() {
       try {
+        setLoading(true);
         const response = await axiosInstance.get(
           getConversation.replace(":id", conversationId)
         );
         return response.data;
       } catch (error) {
         navigate("/");
+      } finally {
+        setLoading(false);
       }
     }
     fetchConversation().then((conversation) => setConversation(conversation));
-  }, [conversationId, setConversation, session]);
+  }, [conversationId, setConversation]);
   useEffect(() => {
     if (!conversation && !Object.keys(conversation || {}).length) return;
     const member = conversation?.members?.find(
@@ -38,7 +43,6 @@ export default function Conversation() {
   }, [conversation]);
   useEffect(() => {
     const handleNewMessage = async (data) => {
-      console.log(123);
       if (data.conversationId !== conversationId) return;
       setConversation((prevConversation) => {
         const updatedMessages = [
@@ -53,7 +57,7 @@ export default function Conversation() {
           messages: updatedMessages,
         };
       });
-      // socket.emit("messages_viewed", { conversationId });
+      socket.emit("messages_viewed", { conversationId });
     };
     const handleMessageEmitted = async (data) => {
       if (data.conversationId !== conversationId) return;
@@ -72,7 +76,7 @@ export default function Conversation() {
         };
       });
     };
-    const messagesViewed = async (data) => {
+    const handleMessagesViewed = async (data) => {
       if (data.conversationId !== conversationId) return;
       setConversation((prevConversation) => {
         return {
@@ -84,13 +88,25 @@ export default function Conversation() {
         };
       });
     };
+    const handleMessageDelete = async (data) => {
+      const { conversationId: messageConversationId, messageId } = data || {};
+      if (messageConversationId !== conversationId || !messageId) return;
+      setConversation((conversation) => {
+        const newMessages = conversation?.messages?.filter(
+          (message) => message.messageId !== messageId
+        );
+        return { ...conversation, messages: newMessages };
+      });
+    };
     socket.on("message_emitted", handleMessageEmitted);
     socket.on("new_message", handleNewMessage);
-    socket.on("messages_viewed", messagesViewed);
+    socket.on("messages_viewed", handleMessagesViewed);
+    socket.on("delete_message", handleMessageDelete);
     return () => {
       socket.off("new_message", handleNewMessage);
       socket.off("message_emitted", handleMessageEmitted);
-      socket.off("messages_viewed", messagesViewed);
+      socket.off("messages_viewed", handleMessagesViewed);
+      socket.off("delete_message", handleMessageDelete);
     };
   }, [socket]);
 

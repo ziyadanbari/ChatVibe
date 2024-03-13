@@ -17,7 +17,7 @@ export default function MessagesBody({ user }) {
     <div
       className="flex-1 overflow-auto md:px-10 px-2 py-4"
       ref={conversationBodyRef}>
-      <div>
+      <div className="flex flex-col gap-8">
         <div className="text-center text-sm text-main-gray">
           Start chatting with{" "}
           <span className="font-bold capitalize">{user?.username}</span>{" "}
@@ -45,6 +45,7 @@ export default function MessagesBody({ user }) {
                   viewed={viewed}
                   emitted={emitted}
                   isSender={isSender}
+                  messageId={messageId}
                   isTheLastMessage={
                     messageId === conversation.messages.slice(-1)[0]?.messageId
                   }

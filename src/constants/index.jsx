@@ -2,7 +2,6 @@ import { baseURLApi } from "@/config/api.js";
 import { logout } from "@/lib/logout.js";
 import {
   AudioLines,
-  File,
   Image,
   LogOut,
   MessageCircleMore,
@@ -34,12 +33,10 @@ export const messagesType = {
   text: "text",
   image: "image",
   video: "video",
-  file: "file",
 };
 export const messagesIcons = {
   audio: AudioLines,
   text: MessageCircleMore,
   image: Image,
   video: Video,
-  file: File,
 };

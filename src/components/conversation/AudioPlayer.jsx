@@ -4,6 +4,7 @@ import getBlobDuration from "get-blob-duration";
 import { Pause, Play } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Slider } from "@/components/ui/slider";
+import { wait } from "@/lib/wait.js";
 
 export default function AudioPlayer({ media }) {
   const [blobUrl, setBlobUrl] = useState(null);
@@ -19,7 +20,8 @@ export default function AudioPlayer({ media }) {
       setIsPlayed(false);
       getBlobDuration(blobUrl).then((seconds) => setDuration(seconds));
     };
-    const handleEndVideo = () => {
+    const handleEndVideo = async () => {
+      await wait(1000);
       setIsPlayed(false);
       setPlayedDuration(0);
       getBlobDuration(blobUrl).then((seconds) => setDuration(seconds));
@@ -53,7 +55,7 @@ export default function AudioPlayer({ media }) {
     audioRef.current.play();
     setIsPlayed(true);
   };
-  const pauseVideo = () => {
+  const pauseAudio = () => {
     audioRef.current.pause();
     setIsPlayed(false);
   };
@@ -63,7 +65,7 @@ export default function AudioPlayer({ media }) {
         <div className="flex items-center gap-2">
           <div className="cursor-pointer">
             {isPlayed ? (
-              <div onClick={pauseVideo}>
+              <div onClick={pauseAudio}>
                 <Pause />
               </div>
             ) : (
@@ -74,16 +76,23 @@ export default function AudioPlayer({ media }) {
           </div>
           <div>
             <Slider
-              step={1}
+              step={0.01}
               defaultValue={[0]}
               value={[(playedDuration / duration) * 100]}
               max={100}
+              onPointerDown={pauseAudio}
+              onValueChange={(value) => {
+                const newDuration = (value[0] / 100) * duration;
+                setPlayedDuration(newDuration);
+                audioRef.current.currentTime = newDuration;
+              }}
+              onPointerUp={playAudio}
               className="min-w-32 max-w-64"
             />
           </div>
         </div>
         <div className="text-[11px] text-white mx-8">
-          {formatTime((duration - playedDuration).toFixed(0))}
+          {formatTime(Math.ceil(duration - playedDuration).toFixed(0))}
         </div>
       </div>
       <audio src={blobUrl} hidden ref={audioRef} />

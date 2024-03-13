@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 
 export default function SocketProvider({ children }) {
   const { setSocket } = useSocket();
-  const { setSession, refreshSession } = useSession();
+  const { session, setSession, refreshSession } = useSession();
   useEffect(() => {
     const socket = io(baseURL, {
       extraHeaders: {
