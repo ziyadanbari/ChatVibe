@@ -1,5 +1,6 @@
 import { friendRequestAction } from "../controllers/private/socket/FriendRequestAction.js";
 import { addFriendRequest } from "../controllers/private/socket/addFriendRequest.js";
+import { deleteMessage } from "../controllers/private/socket/deleteMessage.js";
 import { friendAction } from "../controllers/private/socket/friendAction.js";
 import { markMessagesAsRead } from "../controllers/private/socket/markMessagesAsRead.js";
 import { sendMessage } from "../controllers/private/socket/sendMessage.js";
@@ -37,6 +38,9 @@ export async function handleSocket(io) {
     });
     socket.on("messages_viewed", async (data) => {
       markMessagesAsRead({ io, data, socket });
+    });
+    socket.on("delete_message", async (data) => {
+      deleteMessage({ data, io, socket });
     });
     socket.on("disconnect", async () => {
       try {

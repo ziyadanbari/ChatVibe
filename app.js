@@ -35,6 +35,7 @@ connectToDB(DB_URI)
       );
     });
     global.io = new Server(server, {
+      maxHttpBufferSize: 1e8,
       cors: {
         origin: process.env.CLIENT_URL,
       },
