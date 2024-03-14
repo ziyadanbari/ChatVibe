@@ -1,11 +1,10 @@
-import { friendRequestAction } from "../controllers/private/socket/FriendRequestAction.js";
+import { friendRequestAction } from "../controllers/private/socket/friendRequestAction.js";
 import { addFriendRequest } from "../controllers/private/socket/addFriendRequest.js";
 import { deleteMessage } from "../controllers/private/socket/deleteMessage.js";
 import { friendAction } from "../controllers/private/socket/friendAction.js";
 import { markMessagesAsRead } from "../controllers/private/socket/markMessagesAsRead.js";
 import { sendMessage } from "../controllers/private/socket/sendMessage.js";
 import { checkSocketAuthorization } from "../middlewares/checkAuthorzation.socket.js";
-import { Conversation } from "../models/conversation.js";
 import { socketInstance } from "../models/socketInstance.js";
 import { User } from "../models/user.js";
 import { getUserBySocketId, getUserSocketId } from "../utils/socketUtils.js";
