@@ -11,6 +11,6 @@ export const errorResponse = {
 export const cookieSettings = {
   path: "/",
   httpOnly: false,
-  sameSite: "lax",
-  secure: false,
+  sameSite: "none",
+  secure: true,
 };
