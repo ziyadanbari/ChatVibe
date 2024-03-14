@@ -50,7 +50,7 @@ export async function register(c) {
     });
 
     // Return response with cookie
-    return c.json({ message: `Welcome ${newUser.username}` }, 201, {
+    return c.json({ message: `Welcome ${newUser.username}`, token }, 201, {
       "Set-Cookie": serialize("token", token, {
         maxAge: expirationDate,
         ...cookieSettings,

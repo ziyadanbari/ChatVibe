@@ -46,7 +46,7 @@ export async function googleCallbackHandler(c) {
       userId: user._id.toString(),
     });
 
-    return c.json({ message: `Welcome ${user.username}` }, 200, {
+    return c.json({ message: `Welcome ${user.username}`, token }, 200, {
       "Set-Cookie": serialize("token", token, {
         maxAge: expirationDate,
         ...cookieSettings,

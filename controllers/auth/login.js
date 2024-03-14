@@ -19,7 +19,7 @@ export async function login(c) {
       userId: user._id.toString(),
     });
 
-    return c.json({ message: `Welcome ${username}` }, 200, {
+    return c.json({ message: `Welcome ${username}`, token }, 200, {
       "Set-Cookie": serialize("token", token, {
         maxAge: expirationDate,
         ...cookieSettings,
