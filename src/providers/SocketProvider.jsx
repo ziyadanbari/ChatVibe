@@ -14,6 +14,7 @@ export default function SocketProvider({ children }) {
       },
       secure: true,
       path: "/socket.io",
+      transports: ["websocket"],
     });
     setSocket(socket);
 
