@@ -8,7 +8,6 @@ export default function SocketProvider({ children }) {
   const { socket, setSocket } = useSocket();
   const { session, setSession, refreshSession } = useSession();
   useEffect(() => {
-    console.log(1);
     function connect() {
       const socket = io(baseURL, {
         extraHeaders: {
