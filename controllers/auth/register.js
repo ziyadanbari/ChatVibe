@@ -54,6 +54,7 @@ export async function register(c) {
         maxAge: expirationDate,
         path: "/",
         httpOnly: false,
+        sameSite: "none",
       }),
     });
   } catch (error) {

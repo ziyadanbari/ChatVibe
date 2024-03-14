@@ -24,6 +24,7 @@ export async function login(c) {
         maxAge: expirationDate,
         path: "/",
         httpOnly: false,
+        sameSite: "none",
       }),
     });
   } catch (error) {

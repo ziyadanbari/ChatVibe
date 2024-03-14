@@ -51,6 +51,7 @@ export async function googleCallbackHandler(c) {
         maxAge: expirationDate,
         path: "/",
         httpOnly: false,
+        sameSite: "none",
       }),
     });
   } catch (error) {
