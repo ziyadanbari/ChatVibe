@@ -8,7 +8,6 @@ import { cors } from "hono/cors";
 import { privateRoute } from "./router/private.route.js";
 import { handleSocket } from "./router/socket.private.route.js";
 import { socketInstance } from "./models/socketInstance.js";
-import { isAborted } from "zod";
 
 dotenv.config();
 
@@ -45,7 +44,6 @@ connectToDB(DB_URI)
   })
   .catch((error) => {
     console.error(error);
-    process.exit(0);
   });
 async function cleanSocketInstances() {
   await socketInstance.deleteMany({});
