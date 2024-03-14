@@ -12,9 +12,6 @@ export default function SocketProvider({ children }) {
       extraHeaders: {
         auth: document.cookie,
       },
-      secure: true,
-      path: "/socket.io",
-      transports: ["websocket"],
     });
     setSocket(socket);
 
