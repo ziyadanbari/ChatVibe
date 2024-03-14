@@ -37,6 +37,7 @@ export default function Register() {
         formData.append(key, values[key]);
       }
       const response = await axiosInstance.post(register, formData);
+      localStorage.setItem("token", response?.data?.token);
       refreshSession();
       toasty("info", `Welcome ${formData.get("username")}`);
     } catch (error) {

@@ -31,6 +31,7 @@ export default function Login() {
     try {
       setLoading(true);
       const response = await axiosInstance.post(login, values);
+      localStorage.setItem("token", response?.data?.token);
       refreshSession();
       toasty("success", response.data.message || `Welcome ${values.username}`);
     } catch (error) {

@@ -14,7 +14,9 @@ export default function SocketProvider({ children }) {
       },
     });
     setSocket(socket);
-
+  }, [session, setSession]);
+  useEffect(() => {
+    if (!socket) return;
     const handleNewMessage = async (data) => {
       const { conversationId } = data;
       data = { ...data, conversationId: undefined };
@@ -35,6 +37,6 @@ export default function SocketProvider({ children }) {
       socket.off("new_message", handleNewMessage);
       socket.off("message_emitted", handleNewMessage);
     };
-  }, [setSocket]);
+  }, [setSocket, socket]);
   return children;
 }

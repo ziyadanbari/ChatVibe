@@ -13,6 +13,7 @@ export default function GoogleCallback() {
     async function exchangeCode() {
       try {
         const response = await axiosInstance.post(googleCallback, { code });
+        localStorage.setItem("token", response?.data?.token);
         toasty("success", response.data.message);
         await refreshSession();
       } catch (error) {
