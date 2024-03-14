@@ -60,6 +60,7 @@ export async function sendMessage({ io, socket, data }) {
       const messageData = createMessageData(message, messageType);
       var messageId = messageData.messageId;
       conversation.messages.push(messageData);
+      await conversation.save();
     }
 
     const emitData = {
