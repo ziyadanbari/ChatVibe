@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 
 export default function SocketProvider({ children }) {
-  const { setSocket } = useSocket();
+  const { socket,setSocket } = useSocket();
   const { session, setSession, refreshSession } = useSession();
   useEffect(() => {
     const socket = io(baseURL, {
