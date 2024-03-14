@@ -10,7 +10,7 @@ export default function SocketProvider({ children }) {
   useEffect(() => {
     const socket = io(baseURL, {
       extraHeaders: {
-        auth: document.cookie,
+        auth: localStorage.getItem("token"),
       },
     });
     setSocket(socket);
