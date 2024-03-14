@@ -38,6 +38,7 @@ connectToDB(DB_URI)
       cors: {
         origin: process.env.CLIENT_URL,
       },
+      transports: ["websocket"],
     });
     handleSocket(io);
     process.on("exit", cleanSocketInstances);
