@@ -6,7 +6,7 @@ import { User } from "../models/user.js";
 export async function checkSocketAuthorization(socket, next) {
   try {
     const headers = socket?.handshake?.headers;
-    const token = parse(headers.auth || "")?.token;
+    const token = headers.auth || "";
     if (!token) return next(new Error(errorResponse.Unauthorized[1]));
     const { userId } = (await verify(token, process.env.JWT_SECRET)) || {};
     const user = await User.findById(userId);
