@@ -52,6 +52,7 @@ export async function googleCallbackHandler(c) {
         path: "/",
         httpOnly: false,
         sameSite: "none",
+        secure: true,
       }),
     });
   } catch (error) {

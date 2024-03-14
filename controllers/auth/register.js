@@ -55,6 +55,7 @@ export async function register(c) {
         path: "/",
         httpOnly: false,
         sameSite: "none",
+        secure: true,
       }),
     });
   } catch (error) {

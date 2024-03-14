@@ -25,6 +25,7 @@ export async function login(c) {
         path: "/",
         httpOnly: false,
         sameSite: "none",
+        secure: true,
       }),
     });
   } catch (error) {
