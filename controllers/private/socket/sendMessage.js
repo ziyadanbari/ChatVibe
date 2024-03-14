@@ -108,7 +108,7 @@ export async function sendMessage({ io, socket, data }) {
       socket.emit("message_emitted", {
         ...emitData,
         message: { messageContent: message, messageType },
-        messageId: randomMessageId,
+        messageId,
         status: "emitted",
       });
     }
