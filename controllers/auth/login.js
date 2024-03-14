@@ -4,7 +4,7 @@ import { User } from "../../models/user.js";
 import { loginSchema } from "../../schemas/index.js";
 import { apiErrorHandler } from "../../utils/apiErrorHandler.js";
 import { assignNewAccessToken } from "../../utils/assignAccessToken.js";
-
+import { cookieSettings } from "../../constants/index.js";
 export async function login(c) {
   try {
     const body = await c.req.json();
@@ -22,10 +22,7 @@ export async function login(c) {
     return c.json({ message: `Welcome ${username}` }, 200, {
       "Set-Cookie": serialize("token", token, {
         maxAge: expirationDate,
-        path: "/",
-        httpOnly: false,
-        sameSite: "none",
-        secure: true,
+        ...cookieSettings,
       }),
     });
   } catch (error) {

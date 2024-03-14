@@ -7,3 +7,10 @@ export const errorResponse = {
   Used: [409, "Cannot use this username"],
   WrongCreds: [401, "Username or password incorrect"],
 };
+
+export const cookieSettings = {
+  path: "/",
+  httpOnly: false,
+  sameSite: "lax",
+  secure: false,
+};

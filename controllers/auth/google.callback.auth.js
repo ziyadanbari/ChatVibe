@@ -5,7 +5,7 @@ import { assignNewUser } from "../../utils/assignNewUser.js";
 import { assignNewAccessToken } from "../../utils/assignAccessToken.js";
 import { User } from "../../models/user.js";
 import { serialize } from "cookie";
-
+import { cookieSettings } from "../../constants/index.js";
 export async function googleCallbackHandler(c) {
   try {
     const oAuth2Client = new OAuth2Client(
@@ -49,10 +49,7 @@ export async function googleCallbackHandler(c) {
     return c.json({ message: `Welcome ${user.username}` }, 200, {
       "Set-Cookie": serialize("token", token, {
         maxAge: expirationDate,
-        path: "/",
-        httpOnly: false,
-        sameSite: "none",
-        secure: true,
+        ...cookieSettings,
       }),
     });
   } catch (error) {

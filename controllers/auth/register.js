@@ -8,6 +8,7 @@ import { assignNewAccessToken } from "../../utils/assignAccessToken.js";
 import { serialize } from "cookie";
 import { errorResponse } from "../../constants/index.js";
 import { validateImage } from "../../utils/validateImage.cjs";
+import { cookieSettings } from "../../constants/index.js";
 
 export async function register(c) {
   try {
@@ -52,10 +53,7 @@ export async function register(c) {
     return c.json({ message: `Welcome ${newUser.username}` }, 201, {
       "Set-Cookie": serialize("token", token, {
         maxAge: expirationDate,
-        path: "/",
-        httpOnly: false,
-        sameSite: "none",
-        secure: true,
+        ...cookieSettings,
       }),
     });
   } catch (error) {
