@@ -13,6 +13,8 @@ export default function SocketProvider({ children }) {
         auth: document.cookie,
       },
       secure: true,
+      path: "/socket.io",
+      transports: ["websocket"],
     });
     setSocket(socket);
 
