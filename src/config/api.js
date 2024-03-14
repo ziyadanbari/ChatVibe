@@ -1,4 +1,5 @@
-export const baseURL = "https://chatvibe-vyvg.onrender.com";
+// export const baseURL = "https://chatvibe-vyvg.onrender.com";
+export const baseURL = "http://localhost:8000";
 export const baseURLApi = `${baseURL}/api`;
 export const register = "/auth/register";
 export const login = "/auth/login";
