@@ -15,6 +15,7 @@ import {
 import { UserOption } from "../userOptions.jsx";
 import { validateImage } from "image-validator";
 import { validateVideo } from "@/lib/validateVideo.js";
+import { useLoading } from "../../hooks/useLoading.js";
 
 function ExtraChatOption({ children, className, ...props }) {
   return (
@@ -26,12 +27,14 @@ function ExtraChatOption({ children, className, ...props }) {
 
 export default function MessageInput() {
   const { conversation } = useContext(ConversationContext);
+  const { setLoading } = useLoading();
   const [message, setMessage] = useState("");
   const [isMediaOptionOpen, setIsMediaOptionOpen] = useState(false);
   const { socket } = useSocket();
   const sendMessage = async (e) => {
     e.preventDefault();
     if (!message) return;
+    setLoading(true);
     socket.emit("send_message", {
       conversationId: conversation._id,
       message,
@@ -52,8 +55,8 @@ export default function MessageInput() {
     },
   ];
   const onFileChange = async (e, checkCallback, messageType) => {
+    setLoading(true);
     const files = [...e.target.files];
-
     const validFiles = [];
     await Promise.all(
       files.map(async (file) => {

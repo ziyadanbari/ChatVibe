@@ -1,4 +1,5 @@
 import { messagesType } from "@/constants/index.jsx";
+import { useLoading } from "@/hooks/useLoading.js";
 import useSocket from "@/hooks/useSocket.js";
 import { formatTime } from "@/lib/formatTime.js";
 // import { blobToBase64 } from "@/lib/blobToBase64.js";
@@ -8,6 +9,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 
 function MicRecorder() {
   const { conversation } = useContext(ConversationContext);
+  const { setLoading } = useLoading();
   const { socket } = useSocket();
   const mimeType = "audio/webm";
   const [stream, setStream] = useState(null);
@@ -78,8 +80,8 @@ function MicRecorder() {
   };
   const sendRecord = async (audioBlob) => {
     try {
-      console.log(audioBlob);
       if (!audioBlob) return;
+      setLoading(true);
       socket.emit("send_message", {
         conversationId: conversation?._id,
         message: audioBlob,

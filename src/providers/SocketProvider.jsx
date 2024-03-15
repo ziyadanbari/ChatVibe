@@ -1,4 +1,5 @@
 import { baseURL } from "@/config/api.js";
+import { useLoading } from "@/hooks/useLoading.js";
 import useSession from "@/hooks/useSession.js";
 import useSocket from "@/hooks/useSocket.js";
 import { useEffect } from "react";
@@ -7,6 +8,7 @@ import { io } from "socket.io-client";
 export default function SocketProvider({ children }) {
   const { socket, setSocket } = useSocket();
   const { session, setSession, refreshSession } = useSession();
+  const { setLoading } = useLoading();
   useEffect(() => {
     function connect() {
       const socket = io(baseURL, {
@@ -22,6 +24,7 @@ export default function SocketProvider({ children }) {
   useEffect(() => {
     if (!socket) return;
     const handleNewMessage = async (data) => {
+      setLoading(false);
       const { conversationId } = data;
       data = { ...data, conversationId: undefined };
       setSession((session) => {

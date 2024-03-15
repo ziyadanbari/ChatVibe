@@ -76,9 +76,11 @@ export default function Message({
                 )}
               </div>
               <div className="flex flex-col gap-4 items-center">
-                <div className="cursor-pointer" onClick={deleteMessage}>
-                  <Trash className="text-red-500" size={18} />
-                </div>
+                {isSender && (
+                  <div className="cursor-pointer" onClick={deleteMessage}>
+                    <Trash className="text-red-500" size={18} />
+                  </div>
+                )}
                 {[messagesType.image, messagesType.video].includes(
                   messageType
                 ) ? (
